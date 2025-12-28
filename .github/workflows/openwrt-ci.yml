@@ -85,9 +85,11 @@ jobs:
         run: |
           mkdir -p ./artifact/package
           mkdir -p ./artifact/buildinfo
+          ls ./bin/packages/ || echo "No such file or directory"
+          ls ./bin/targets/ || echo "No such file or directory"
           rm -rf $(find ./bin/targets/ -type d -name "packages")
-          cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
-          cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
+          cp -rf ./bin/packages/* ./artifact/package/ || true
+          cp -rf ./bin/targets/* ./artifact/buildinfo/ || true
 
       - name: Upload buildinfo
         uses: actions/upload-artifact@v4
